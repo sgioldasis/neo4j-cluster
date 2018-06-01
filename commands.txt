@@ -1,0 +1,4 @@
+vagrant init bento/ubuntu-14.04
+vagrant up
+vagrant ssh
+vagrant destroy
