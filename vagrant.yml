@@ -1,0 +1,5 @@
+---
+vm_box: bento/ubuntu-14.04
+vm_name: neo4j-node
+vm_memory: 4096
+vm_gui: false
