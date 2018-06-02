@@ -46,6 +46,11 @@ Vagrant.configure("2") do |config|
       # Create a private network, which allows host-only access to the machine
       # using a specific IP.
       # config.vm.network "private_network", ip: "192.168.33.10"
+      node_ip = settings['vm_ip_prefix']+"."+"#{node_number+10}"
+      node.vm.network "private_network", ip: node_ip
+        # ,netmask: "255.255.255.0",
+        # auto_config: true
+
 
       # Create a public network, which generally matched to bridged network.
       # Bridged networks make the machine appear as another physical device on
