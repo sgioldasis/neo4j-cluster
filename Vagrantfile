@@ -10,6 +10,19 @@ settings = YAML.load_file 'vagrant.yml'
 # you're doing.
 Vagrant.configure("2") do |config|
 
+  # Loop to determine cluster-wide lists
+  # neo4j_initial_hosts = ""
+  # (1..settings['cluster_size']).each do |node_number|
+  #   node_ip = settings['vm_ip_prefix']+"."+"#{node_number+10}"
+  #   host_entry = node_ip + ":" + settings['neo4j_host_coordination_port'].to_s
+  #   if neo4j_initial_hosts == "" then
+  #     neo4j_initial_hosts = host_entry
+  #   else
+  #     neo4j_initial_hosts = neo4j_initial_hosts # + "," + host_entry
+  #   end
+  # end
+  # print "Determined: neo4j_initial_hosts = " + neo4j_initial_hosts + "\n"
+
   # Loop with node_number taking values from 1 to the configured cluster size
   (1..settings['cluster_size']).each do |node_number|
 
@@ -78,6 +91,29 @@ Vagrant.configure("2") do |config|
       
       # View the documentation for the provider you are using for more
       # information on available options.
+
+      # Ansible provisioning
+
+      # Disable the new default behavior introduced in Vagrant 1.7, to
+      # ensure that all Vagrant machines will use the same SSH key pair.
+      # See https://github.com/mitchellh/vagrant/issues/5005
+      node.ssh.insert_key = false
+
+      # Determine neo4j_initial_hosts 
+      initial_node_ip = settings['vm_ip_prefix']+"."+"11"
+      host_coordination_port = settings['neo4j_host_coordination_port'].to_s
+      neo4j_initial_hosts = initial_node_ip + ":" + host_coordination_port
+
+      # Call Ansible also passing it values needed for configuration
+      node.vm.provision "ansible" do |ansible|
+        ansible.verbose = "v"
+        ansible.playbook = "playbook.yml"
+        ansible.extra_vars = {
+          node_ip_address: node_ip,
+          neo4j_server_id: node_number,
+          neo4j_initial_hosts: neo4j_initial_hosts
+      }
+      end
 
       # Enable provisioning with a shell script. Additional provisioners such as
       # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the

@@ -2,3 +2,11 @@ vagrant init bento/ubuntu-14.04
 vagrant up
 vagrant ssh
 vagrant destroy
+
+
+https://github.com/malk/ansible-java8-oracle
+git clone https://github.com/malk/ansible-java8-oracle.git
+
+
+https://github.com/deimosfr/ansible-neo4j
+git clone https://github.com/deimosfr/ansible-neo4j.git

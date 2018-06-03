@@ -1,9 +1,11 @@
 ---
-vm_box: bento/ubuntu-14.04
+vm_box: ubuntu/trusty64
 vm_name: neo4j-node
 vm_memory: 4096
 vm_gui: false
 vm_ip_prefix: 192.168.3
 
 
-cluster_size: 2
+cluster_size: 3
+
+neo4j_host_coordination_port: 5001
